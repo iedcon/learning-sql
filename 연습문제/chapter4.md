@@ -32,7 +32,10 @@ MariaDB [sakila]> (SELECT payment_id, customer_id, amount, date(payment_date) FR
 ## Q. 4-1
 >customer_id <> 5 AND (amount > 8 OR date(payment_date) = '2005-08-23')을 만족하는 payment ID는?
 ```sql
-MariaDB [sakila]> SELECT pay.payment_id FROM (SELECT payment_id, customer_id, amount, date(payment_date) AS payment_date FROM payment WHERE payment_id BETWEEN 101 AND 120) pay WHERE pay.customer_id <> 5 AND (pay.amount > 8 OR pay.payment_date = '2005-08-23');
+MariaDB [sakila]> SELECT pay.payment_id 
+    -> FROM (SELECT payment_id, customer_id, amount, date(payment_date) AS payment_date 
+    ->    FROM payment WHERE payment_id BETWEEN 101 AND 120) pay 
+    -> WHERE pay.customer_id <> 5 AND (pay.amount > 8 OR pay.payment_date = '2005-08-23');
 +------------+
 | payment_id |
 +------------+
@@ -45,7 +48,10 @@ MariaDB [sakila]> SELECT pay.payment_id FROM (SELECT payment_id, customer_id, am
 ## Q. 4-2
 >customer_id = 5 AND NOT (amount > 6 OR date(payment_date) = '2005-06-19')를 만족하는 payment ID는?
 ```sql
-MariaDB [sakila]> SELECT pay.payment_id FROM (SELECT payment_id, customer_id, amount, date(payment_date) AS payment_date FROM payment WHERE payment_id BETWEEN 101 AND 120) pay WHERE pay.customer_id = 5 AND NOT (pay.amount > 6 OR pay.payment_date = '2005-06-19');
+MariaDB [sakila]> SELECT pay.payment_id 
+    -> FROM (SELECT payment_id, customer_id, amount, date(payment_date) AS payment_date 
+    ->    FROM payment WHERE payment_id BETWEEN 101 AND 120) pay 
+    -> WHERE pay.customer_id = 5 AND NOT (pay.amount > 6 OR pay.payment_date = '2005-06-19');
 +------------+
 | payment_id |
 +------------+
@@ -85,19 +91,19 @@ MariaDB [sakila]> SELECT * FROM payment WHERE amount IN (1.98, 7.98, 9.98);
 ## Q. 4-4
 > last_name의 두 번째 위치에 A가 있고 A 다음에 W가 있는(위치 무관) 모든 고객을 찾는 쿼리
 ```sql
-MariaDB [sakila]> SELECT * FROM customer WHERE last_name LIKE '_A%W%';
-+-------------+----------+------------+------------+------------------------------------+------------+--------+---------------------+---------------------+
-| customer_id | store_id | first_name | last_name  | email                              | address_id | active | create_date         | last_update         |
-+-------------+----------+------------+------------+------------------------------------+------------+--------+---------------------+---------------------+
-|         159 |        1 | JILL       | HAWKINS    | JILL.HAWKINS@sakilacustomer.org    |        163 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |
-|         169 |        2 | ERICA      | MATTHEWS   | ERICA.MATTHEWS@sakilacustomer.org  |        173 |      0 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |
-|         192 |        1 | LAURIE     | LAWRENCE   | LAURIE.LAWRENCE@sakilacustomer.org |        196 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |
-|         200 |        2 | JEANNE     | LAWSON     | JEANNE.LAWSON@sakilacustomer.org   |        204 |      1 | 2006-02-14 22:04:36 | 2006-02-15 04:57:20 |
-|         272 |        1 | KAY        | CALDWELL   | KAY.CALDWELL@sakilacustomer.org    |        277 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |
-|         300 |        1 | JOHN       | FARNSWORTH | JOHN.FARNSWORTH@sakilacustomer.org |        305 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |
-|         358 |        2 | SAMUEL     | MARLOW     | SAMUEL.MARLOW@sakilacustomer.org   |        363 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |
-|         361 |        2 | LAWRENCE   | LAWTON     | LAWRENCE.LAWTON@sakilacustomer.org |        366 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |
-|         421 |        1 | LEE        | HAWKS      | LEE.HAWKS@sakilacustomer.org       |        426 |      1 | 2006-02-14 22:04:37 | 2006-02-15 04:57:20 |
-+-------------+----------+------------+------------+------------------------------------+------------+--------+---------------------+---------------------+
-9 rows in set (0.002 sec)
+MariaDB [sakila]> SELECT first_name, last_name FROM customer WHERE last_name LIKE '_A%W%';
++------------+------------+
+| first_name | last_name  |
++------------+------------+
+| JILL       | HAWKINS    |
+| ERICA      | MATTHEWS   |
+| LAURIE     | LAWRENCE   |
+| JEANNE     | LAWSON     |
+| KAY        | CALDWELL   |
+| JOHN       | FARNSWORTH |
+| SAMUEL     | MARLOW     |
+| LAWRENCE   | LAWTON     |
+| LEE        | HAWKS      |
++------------+------------+
+9 rows in set (0.001 sec)
 ```
